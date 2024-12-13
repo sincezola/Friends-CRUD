@@ -10,7 +10,13 @@ import {
   Res,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags, ApiParam } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  ApiParam,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { GetFriendByIdCase } from './use-cases/getFriendById-case/findByIdCase';
 import { GetAllFriendsCase } from './use-cases/getAllFriends-case/getAllFriendsCase';
 import { InsertNewFriendCase } from './use-cases/insertNewFriend-case/insertNewFriend-case';
@@ -49,6 +55,18 @@ export class AppController {
 
   @Get('/friend')
   @ApiOperation({ summary: 'Search friend by ID or Name' })
+  @ApiQuery({
+    name: 'id',
+    required: false,
+    type: Number,
+    description: 'Friend ID to search by.',
+  })
+  @ApiQuery({
+    name: 'name',
+    required: false,
+    type: String,
+    description: 'Friend name to search by.',
+  })
   @ApiResponse({
     status: 200,
     description: 'Returns the friend details.',
@@ -68,6 +86,10 @@ export class AppController {
       searchedFriend = await this.getFriendByIdCase.getFriendById(id);
     } else if (name) {
       searchedFriend = await this.getFriendByNameCase.getFriendById(name);
+    } else {
+      return res
+        .status(400)
+        .json({ message: 'Either id or name must be provided.' });
     }
 
     const { statusCode, body } = searchedFriend;
