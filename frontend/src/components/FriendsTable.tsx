@@ -6,16 +6,21 @@ import {
   TableHead,
   TableCell,
 } from "./ui/table";
-import { Trash } from "lucide-react";
+import { Pen, Trash } from "lucide-react";
 import { format } from "date-fns";
 import { Friend } from "../api/Friend";
 
 interface FriendsTableProps {
   friends: Friend[];
   onDelete: (id: number) => void;
+  onEdit: (id: number) => void;
 }
 
-export function FriendsTable({ friends = [], onDelete }: FriendsTableProps) {
+export function FriendsTable({
+  friends = [],
+  onDelete,
+  onEdit,
+}: FriendsTableProps) {
   return (
     <Table>
       <TableHeader>
@@ -40,13 +45,22 @@ export function FriendsTable({ friends = [], onDelete }: FriendsTableProps) {
                 {format(new Date(friend.created_at), "MMM dd, yyyy hh:mm a")}
               </TableCell>
               <TableCell>
-                <button
-                  onClick={() => onDelete(friend.id)}
-                  className="p-2 bg-red-500 text-white rounded-md flex items-center justify-center hover:bg-red-600"
-                  aria-label={`Delete friend ${friend.name}`}
-                >
-                  <Trash className="h-5 w-5" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => onDelete(friend.id)}
+                    className="p-2 bg-red-500 text-white rounded-md flex items-center justify-center hover:bg-red-600"
+                    aria-label={`Delete friend ${friend.name}`}
+                  >
+                    <Trash className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={() => onEdit(friend.id)}
+                    className="p-2 bg-yellow-500 text-white rounded-md flex items-center justify-center hover:bg-yellow-600"
+                    aria-label={`Edit friend ${friend.name}`}
+                  >
+                    <Pen className="h-5 w-5" />
+                  </button>
+                </div>
               </TableCell>
             </TableRow>
           ))
