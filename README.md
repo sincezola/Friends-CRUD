@@ -56,18 +56,24 @@ http://localhost:{PORT}/sinz
 - **Example Response**:
 ```json
 [
-  {
-    "id": 1,
-    "name": "Alice",
-    "friendLevel": 5,
-    "fatLevel": 2
-  },
-  {
-    "id": 2,
-    "name": "Bob",
-    "friendLevel": 8,
-    "fatLevel": 3
-  }
+	{
+		"data": {
+			"id": 1,
+			"name": "Jhon Doe",
+			"friendLevel": 10,
+			"fatLevel": 10,
+			"created_at": "2024-12-12T19:47:10.811Z"
+		}
+	},
+	{
+		"data": {
+			"id": 1,
+			"name": "Doe Jhon",
+			"friendLevel": 10,
+			"fatLevel": 10,
+			"created_at": "2024-12-12T19:47:10.811Z"
+		}
+	}
 ]
 ```
 
@@ -84,10 +90,15 @@ GET /friend?id=1
 - **Example Response**:
 ```json
 {
-  "id": 1,
-  "name": "Alice",
-  "friendLevel": 5,
-  "fatLevel": 2
+	{
+		"data": {
+			"id": 1,
+			"name": "Jhon Doe",
+			"friendLevel": 10,
+			"fatLevel": 10,
+			"created_at": "2024-12-12T19:47:10.811Z"
+		}
+	}
 }
 ```
 
@@ -105,12 +116,12 @@ GET /friend?id=1
 - **Example Response**:
 ```json
 {
-  "message": "Friend created successfully",
-  "friend": {
-    "id": 3,
+  "data": {
+    "id": 1,
     "name": "Charlie",
     "friendLevel": 7,
-    "fatLevel": 1
+    "fatLevel": 1,
+    "created_at": "2024-12-12T19:47:10.811Z"
   }
 }
 ```
@@ -123,16 +134,16 @@ GET /friend?id=1
   "friendLevel": 9
 }
 ```
-- **Description**: Updates details of an existing friend.
+- **Description**: Updates details of an existing friend (Cannot change Name).
 - **Example Response**:
 ```json
 {
-  "message": "Friend updated successfully",
-  "friend": {
+  "data": {
     "id": 1,
-    "name": "Alice",
+    "name": "Jhon Doe",
     "friendLevel": 9,
-    "fatLevel": 2
+    "fatLevel": 10,
+    "created_at": "2024-12-12T19:47:10.811Z"
   }
 }
 ```
@@ -140,10 +151,16 @@ GET /friend?id=1
 #### ❌ Remove a friend
 - **DELETE** `/delete-friend/:id`
 - **Description**: Removes a friend from the system by ID.
-- **Example Response**:
+- **Example Response (User that have been deleted)**:
 ```json
 {
-  "message": "Friend deleted successfully"
+  "data": {
+    "id": 4,
+    "name": "Jhon doe",
+    "friendLevel": 7,
+    "fatLevel": 10,
+    "created_at": "2024-12-12T19:47:10.811Z"
+  }
 }
 ```
 
@@ -160,7 +177,7 @@ Make sure you have installed:
 ### Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/sincezola/Friends-CRUD.git
    ```
 2. Install backend dependencies:
    ```bash
