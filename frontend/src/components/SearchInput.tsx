@@ -16,9 +16,9 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
     if (regex.test(input)) {
       setSearchQuery(input);
 
-      // Lógica para normalizar o texto da pesquisa e passar para o componente pai
+      // Normaliza o texto da pesquisa e passa para o componente pai
       const normalizedQuery = input.replace(/\s+/g, " ").trim().toLowerCase();
-      onSearch(normalizedQuery); // Passa a pesquisa normalizada para o componente pai
+      onSearch(normalizedQuery);
     }
   };
 
@@ -28,7 +28,7 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
       .replace(/\s+/g, " ")
       .trim()
       .toLowerCase();
-    onSearch(normalizedQuery); // Passa a pesquisa normalizada para o componente pai
+    onSearch(normalizedQuery);
   };
 
   return (
@@ -40,7 +40,8 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
       />
       <button
         onClick={handleSearch}
-        className="p-2 bg-primary text-primary-foreground rounded-md flex items-center"
+        className="p-2 bg-primary text-primary-foreground rounded-md flex items-center justify-center hover:bg-primary-dark transition-transform duration-200 hover:scale-110"
+        aria-label="Search"
       >
         <Search className="h-5 w-5" />
       </button>

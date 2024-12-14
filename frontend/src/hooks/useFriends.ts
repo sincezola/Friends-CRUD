@@ -1,6 +1,11 @@
 import { useState, useCallback } from "react";
 import { Friend } from "../api/Friend";
-import { createFriend, getFriends, deleteFriend } from "@/api/friends";
+import {
+  createFriend,
+  getFriends,
+  deleteFriend,
+  updateFriend,
+} from "@/api/friends";
 
 export default function useFriends() {
   const [friends, setFriends] = useState<Friend[]>([]);
@@ -36,11 +41,25 @@ export default function useFriends() {
     }
   };
 
+  const handleUpdateFriend = async (
+    id: number,
+    updatedFriend: Partial<Omit<Friend, "id" | "created_at">>
+  ) => {
+    setError(null);
+    try {
+      await updateFriend(id, updatedFriend);
+      await fetchFriends();
+    } catch (err) {
+      setError("Failed to update friend");
+    }
+  };
+
   return {
     friends,
     error,
     fetchFriends,
     addFriend,
     deleteFriend: handleDeleteFriend,
+    updateFriend: handleUpdateFriend, // Adiciona a funcionalidade de atualização
   };
 }

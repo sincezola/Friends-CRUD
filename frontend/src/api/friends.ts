@@ -22,3 +22,14 @@ export async function createFriend(Friend: Omit<Friend, "id" | "created_at">) {
 export async function deleteFriend(id: number) {
   await axios.delete(`${API_BASE_URL}/delete-friend/${id}`);
 }
+
+export async function updateFriend(
+  id: number,
+  updatedFriend: Partial<Omit<Friend, "id" | "created_at">>
+) {
+  const response = await axios.put(
+    `${API_BASE_URL}/update-friend/${id}`,
+    updatedFriend
+  );
+  return response.data;
+}

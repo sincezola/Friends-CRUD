@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FriendsTable } from "./components/FriendsTable";
 import useFriends from "./hooks/useFriends";
-import { FriendsDialog } from "./components/FriendsDialog";
+import { FriendsDialog } from "./components/CreateFriendDialog";
 import { PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "./components/ui/sonner";
