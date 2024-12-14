@@ -121,6 +121,7 @@ export function FriendsDialog({
                 min={1}
                 max={10}
                 required
+                className="border rounded-md p-2 w-full appearance-none -moz-appearance-none -webkit-appearance-none"
               />
               {errors.friendLevel && (
                 <p className="text-red-500 text-sm">{errors.friendLevel}</p>
@@ -139,6 +140,7 @@ export function FriendsDialog({
                 min={1}
                 max={10}
                 required
+                className="border rounded-md p-2 w-full appearance-none -moz-appearance-none -webkit-appearance-none"
               />
               {errors.fatLevel && (
                 <p className="text-red-500 text-sm">{errors.fatLevel}</p>

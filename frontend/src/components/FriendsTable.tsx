@@ -90,15 +90,13 @@ export function FriendsTable({
       {/* Modal para editar */}
       {selectedFriend && (
         <UpdateFriendDialog
+          open={!!selectedFriend}
+          onClose={handleCloseEditModal}
+          friend={selectedFriend}
           onSubmit={(updatedData) => {
             onEdit(selectedFriend.id, updatedData); // Chama a função de edição
             handleCloseEditModal(); // Fecha o modal após a edição
           }}
-          dialogTitle="Edit Friend"
-          dialogDescription={`Editing details for ${selectedFriend.name}`}
-          open={!!selectedFriend} // Controla se o modal está aberto
-          onClose={handleCloseEditModal} // Fecha o modal
-          selectedFriend={selectedFriend}
         />
       )}
     </>

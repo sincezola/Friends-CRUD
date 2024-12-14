@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogTrigger,
   DialogContent,
   DialogFooter,
   DialogClose,
@@ -11,52 +12,65 @@ import {
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { toast } from "sonner";
 import { Friend } from "../api/Friend";
+import { toast } from "sonner"; // Importando o toast
 
 interface UpdateFriendDialogProps {
+  open: boolean;
+  onClose: () => void;
   onSubmit: (updatedData: { friendLevel: number; fatLevel: number }) => void;
-  dialogTitle: string;
-  dialogDescription: string;
-  open: boolean; // Estado de abertura do modal
-  onClose: () => void; // Função para fechar o modal
-  selectedFriend: Friend; // Amigo selecionado para edição
+  friend: Friend;
 }
 
 export function UpdateFriendDialog({
-  onSubmit,
-  dialogTitle,
-  dialogDescription,
   open,
   onClose,
-  selectedFriend,
+  onSubmit,
+  friend,
 }: UpdateFriendDialogProps) {
-  const [friendLevel, setFriendLevel] = useState<number | "">("");
-  const [fatLevel, setFatLevel] = useState<number | "">("");
+  const [friendLevel, setFriendLevel] = useState(friend.friendLevel.toString());
+  const [fatLevel, setFatLevel] = useState(friend.fatLevel.toString());
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    if (selectedFriend) {
-      setFriendLevel(selectedFriend.friendLevel);
-      setFatLevel(selectedFriend.fatLevel);
+  const regex = /^[0-9]+$/; // Regex para permitir apenas números
+
+  // Função para tratar a mudança de valor, permitindo apenas números
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    setter: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    const value = e.target.value;
+    if (regex.test(value) || value === "") {
+      setter(value); // Se for número ou vazio, atualiza o estado
     }
-  }, [selectedFriend]);
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (friendLevel === "" || fatLevel === "") {
-      toast.error("All fields are required.");
+
+    // Convertendo os valores para número
+    const updatedFriendLevel = parseInt(friendLevel, 10);
+    const updatedFatLevel = parseInt(fatLevel, 10);
+
+    // Validações de valores
+    if (
+      updatedFriendLevel < 1 ||
+      updatedFriendLevel > 10 ||
+      updatedFatLevel < 1 ||
+      updatedFatLevel > 10
+    ) {
+      toast.error("Friend Level and Fat Level must be between 1 and 10");
       return;
     }
 
     setIsSubmitting(true);
+
     try {
-      await onSubmit({
-        friendLevel: Number(friendLevel),
-        fatLevel: Number(fatLevel),
-      });
-      onClose(); // Fecha o modal após a submissão
+      // Passando os dados para o hook
+      onSubmit({ friendLevel: updatedFriendLevel, fatLevel: updatedFatLevel });
+
       toast.success("Friend updated successfully!");
+      onClose(); // Fecha o modal
     } catch (err) {
       toast.error("Error updating friend!");
     } finally {
@@ -65,11 +79,15 @@ export function UpdateFriendDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogTrigger asChild>
+        <Button>Edit Friend</Button>
+      </DialogTrigger>
+
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{dialogTitle}</DialogTitle>
-          <DialogDescription>{dialogDescription}</DialogDescription>
+          <DialogTitle>Edit Friend: {friend.name}</DialogTitle>
+          <DialogDescription>Update the friend details.</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -79,13 +97,13 @@ export function UpdateFriendDialog({
               <Input
                 id="friendLevel"
                 name="friendLevel"
-                type="number"
+                type="text" // Usamos type="text" para permitir números e validar com regex
                 value={friendLevel}
-                onChange={(e) => setFriendLevel(e.target.valueAsNumber || "")}
-                autoComplete="off"
+                onChange={(e) => handleInputChange(e, setFriendLevel)} // Aplica o regex
                 min={1}
                 max={10}
                 required
+                className="border rounded-md p-2 w-full appearance-none"
               />
             </div>
           </div>
@@ -96,20 +114,20 @@ export function UpdateFriendDialog({
               <Input
                 id="fatLevel"
                 name="fatLevel"
-                type="number"
+                type="text"
                 value={fatLevel}
-                onChange={(e) => setFatLevel(e.target.valueAsNumber || "")}
-                autoComplete="off"
+                onChange={(e) => handleInputChange(e, setFatLevel)}
                 min={1}
                 max={10}
                 required
+                className="border rounded-md p-2 w-full appearance-none"
               />
             </div>
           </div>
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button type="button" variant="outline" onClick={onClose}>
+              <Button type="button" variant="outline">
                 Cancel
               </Button>
             </DialogClose>
@@ -122,5 +140,3 @@ export function UpdateFriendDialog({
     </Dialog>
   );
 }
-
-export default UpdateFriendDialog;

@@ -10,6 +10,8 @@ import {
 export default function useFriends() {
   const [friends, setFriends] = useState<Friend[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
 
   const fetchFriends = useCallback(async () => {
     setError(null);
@@ -54,12 +56,26 @@ export default function useFriends() {
     }
   };
 
+  const openModal = (friend: Friend) => {
+    setSelectedFriend(friend);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedFriend(null);
+    setIsModalOpen(false);
+  };
+
   return {
     friends,
     error,
+    isModalOpen,
+    selectedFriend,
     fetchFriends,
     addFriend,
     deleteFriend: handleDeleteFriend,
-    updateFriend: handleUpdateFriend, // Adiciona a funcionalidade de atualização
+    updateFriend: handleUpdateFriend,
+    openModal,
+    closeModal,
   };
 }

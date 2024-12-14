@@ -8,7 +8,14 @@ import { Toaster } from "./components/ui/sonner";
 import SearchInput from "./components/SearchInput";
 
 function App() {
-  const { friends, error, fetchFriends, addFriend, deleteFriend } = useFriends();
+  const {
+    friends,
+    error,
+    fetchFriends,
+    addFriend,
+    deleteFriend,
+    updateFriend, // Certifique-se de que o hook retorna updateFriend
+  } = useFriends();
   const [filteredFriends, setFilteredFriends] = useState(friends);
 
   useEffect(() => {
@@ -54,6 +61,18 @@ function App() {
     }
   };
 
+  const handleEditFriend = async (
+    id: number,
+    updatedData: { friendLevel: number; fatLevel: number }
+  ) => {
+    try {
+      await updateFriend(id, updatedData); // Atualiza o amigo usando a função do hook
+      toast.success("Friend updated successfully!");
+    } catch {
+      toast.error("Error updating friend!");
+    }
+  };
+
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       <Toaster />
@@ -74,7 +93,11 @@ function App() {
 
       {error && <p className="text-red-500">{error}</p>}
 
-      <FriendsTable friends={filteredFriends} onDelete={handleDeleteFriend} />
+      <FriendsTable
+        friends={filteredFriends}
+        onDelete={handleDeleteFriend}
+        onEdit={handleEditFriend} // Passando a função de edição
+      />
     </div>
   );
 }

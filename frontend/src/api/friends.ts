@@ -27,8 +27,8 @@ export async function updateFriend(
   id: number,
   updatedFriend: Partial<Omit<Friend, "id" | "created_at">>
 ) {
-  const response = await axios.put(
-    `${API_BASE_URL}/update-friend/${id}`,
+  const response = await axios.patch(
+    `${API_BASE_URL}/patch-friend/${id}`,
     updatedFriend
   );
   return response.data;
