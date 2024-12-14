@@ -10,12 +10,12 @@ import {
 import { Pen, Trash } from "lucide-react";
 import { format } from "date-fns";
 import { Friend } from "../api/Friend";
-import { UpdateFriendDialog } from "./UpdateFriendDialog"; // Importando o modal
+import { UpdateFriendDialog } from "./UpdateFriendDialog";
 
 interface FriendsTableProps {
   friends: Friend[];
   onDelete: (id: number) => void;
-  onEdit: (id: number, data: { friendLevel: number; fatLevel: number }) => void; // Função de edição
+  onEdit: (id: number, data: { friendLevel: number; fatLevel: number }) => void;
 }
 
 export function FriendsTable({
@@ -26,11 +26,11 @@ export function FriendsTable({
   const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
 
   const handleOpenEditModal = (friend: Friend) => {
-    setSelectedFriend(friend); // Define o amigo selecionado para abrir o modal
+    setSelectedFriend(friend);
   };
 
   const handleCloseEditModal = () => {
-    setSelectedFriend(null); // Limpa o estado para fechar o modal
+    setSelectedFriend(null);
   };
 
   return (
@@ -87,15 +87,14 @@ export function FriendsTable({
         </TableBody>
       </Table>
 
-      {/* Modal para editar */}
       {selectedFriend && (
         <UpdateFriendDialog
           open={!!selectedFriend}
           onClose={handleCloseEditModal}
           friend={selectedFriend}
           onSubmit={(updatedData) => {
-            onEdit(selectedFriend.id, updatedData); // Chama a função de edição
-            handleCloseEditModal(); // Fecha o modal após a edição
+            onEdit(selectedFriend.id, updatedData);
+            handleCloseEditModal();
           }}
         />
       )}

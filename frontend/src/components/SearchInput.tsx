@@ -16,14 +16,12 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
     if (regex.test(input)) {
       setSearchQuery(input);
 
-      // Normaliza o texto da pesquisa e passa para o componente pai
       const normalizedQuery = input.replace(/\s+/g, " ").trim().toLowerCase();
       onSearch(normalizedQuery);
     }
   };
 
   const handleSearch = () => {
-    // Normaliza a consulta, removendo espaços extras
     const normalizedQuery = searchQuery
       .replace(/\s+/g, " ")
       .trim()

@@ -30,8 +30,8 @@ export function FriendsForm({ onSubmit }: FriendsFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData); // Chama onSubmit e passa os dados do formulário
-    setFormData({ name: "", friendLevel: 0, fatLevel: 0 }); // Limpa o formulário após o envio
+    onSubmit(formData);
+    setFormData({ name: "", friendLevel: 0, fatLevel: 0 });
   };
 
   return (

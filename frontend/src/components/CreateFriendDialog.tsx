@@ -13,9 +13,8 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Friend } from "../api/Friend";
-import { toast } from "sonner"; // Importando o toast
+import { toast } from "sonner";
 
-// Criar um tipo para dados de entrada (sem id e created_at)
 type NewFriend = Omit<Friend, "id" | "created_at">;
 
 interface FriendsDialogProps {
@@ -41,7 +40,6 @@ export function FriendsDialog({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Usando o estado `open` para controlar o modal
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -53,7 +51,6 @@ export function FriendsDialog({
     const friendLevel = parseInt(formData.get("friendLevel") as string, 10);
     const fatLevel = parseInt(formData.get("fatLevel") as string, 10);
 
-    // Validações para o campo "Friend Name"
     if (name.length < 4) {
       toast.error("Friend Name must have at least 4 characters.");
       return;

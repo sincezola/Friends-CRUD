@@ -6,6 +6,7 @@ import { PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "./components/ui/sonner";
 import SearchInput from "./components/SearchInput";
+import ThemeToggle from "./components/ThemeToggle";
 
 function App() {
   const {
@@ -14,7 +15,7 @@ function App() {
     fetchFriends,
     addFriend,
     deleteFriend,
-    updateFriend, // Certifique-se de que o hook retorna updateFriend
+    updateFriend,
   } = useFriends();
   const [filteredFriends, setFilteredFriends] = useState(friends);
 
@@ -23,12 +24,12 @@ function App() {
   }, [fetchFriends]);
 
   useEffect(() => {
-    setFilteredFriends(friends); // Quando os amigos mudam, restauramos a lista original
+    setFilteredFriends(friends);
   }, [friends]);
 
   const handleSearch = (query: string) => {
     if (query === "") {
-      setFilteredFriends(friends); // Se o campo de pesquisa estiver vazio, mostra todos os amigos
+      setFilteredFriends(friends);
     } else {
       const filtered = friends.filter((friend) => {
         const matchesName = friend.name.toLowerCase().includes(query);
@@ -66,7 +67,7 @@ function App() {
     updatedData: { friendLevel: number; fatLevel: number }
   ) => {
     try {
-      await updateFriend(id, updatedData); // Atualiza o amigo usando a função do hook
+      await updateFriend(id, updatedData);
       toast.success("Friend updated successfully!");
     } catch {
       toast.error("Error updating friend!");
@@ -76,6 +77,8 @@ function App() {
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">
       <Toaster />
+
+      <ThemeToggle />
 
       <h1 className="text-3xl font-bold">Friends</h1>
 
@@ -96,7 +99,7 @@ function App() {
       <FriendsTable
         friends={filteredFriends}
         onDelete={handleDeleteFriend}
-        onEdit={handleEditFriend} // Passando a função de edição
+        onEdit={handleEditFriend}
       />
     </div>
   );

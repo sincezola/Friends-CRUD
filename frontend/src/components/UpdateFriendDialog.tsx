@@ -13,7 +13,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Friend } from "../api/Friend";
-import { toast } from "sonner"; // Importando o toast
+import { toast } from "sonner";
 
 interface UpdateFriendDialogProps {
   open: boolean;
@@ -32,27 +32,24 @@ export function UpdateFriendDialog({
   const [fatLevel, setFatLevel] = useState(friend.fatLevel.toString());
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const regex = /^[0-9]+$/; // Regex para permitir apenas números
+  const regex = /^[0-9]+$/;
 
-  // Função para tratar a mudança de valor, permitindo apenas números
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     setter: React.Dispatch<React.SetStateAction<string>>
   ) => {
     const value = e.target.value;
     if (regex.test(value) || value === "") {
-      setter(value); // Se for número ou vazio, atualiza o estado
+      setter(value);
     }
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Convertendo os valores para número
     const updatedFriendLevel = parseInt(friendLevel, 10);
     const updatedFatLevel = parseInt(fatLevel, 10);
 
-    // Validações de valores
     if (
       updatedFriendLevel < 1 ||
       updatedFriendLevel > 10 ||
@@ -66,11 +63,10 @@ export function UpdateFriendDialog({
     setIsSubmitting(true);
 
     try {
-      // Passando os dados para o hook
       onSubmit({ friendLevel: updatedFriendLevel, fatLevel: updatedFatLevel });
 
       toast.success("Friend updated successfully!");
-      onClose(); // Fecha o modal
+      onClose();
     } catch (err) {
       toast.error("Error updating friend!");
     } finally {
@@ -97,9 +93,9 @@ export function UpdateFriendDialog({
               <Input
                 id="friendLevel"
                 name="friendLevel"
-                type="text" // Usamos type="text" para permitir números e validar com regex
+                type="text"
                 value={friendLevel}
-                onChange={(e) => handleInputChange(e, setFriendLevel)} // Aplica o regex
+                onChange={(e) => handleInputChange(e, setFriendLevel)}
                 min={1}
                 max={10}
                 required
