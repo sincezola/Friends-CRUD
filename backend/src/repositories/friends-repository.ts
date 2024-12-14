@@ -82,7 +82,7 @@ export class FriendsRepository implements RepositoryProtocol {
           fatLevel,
         },
         select: {
-          id: true, // `id` agora é do tipo `number`
+          id: true,
           name: true,
           friendLevel: true,
           fatLevel: true,
@@ -101,7 +101,6 @@ export class FriendsRepository implements RepositoryProtocol {
   }
 
   async deleteFriend(id: number): Promise<Friend> {
-    // Alterar para `number`
     try {
       const deletedFriend = await this.prisma.friends.delete({
         where: { id },
@@ -116,7 +115,6 @@ export class FriendsRepository implements RepositoryProtocol {
   }
 
   async updateFriend(id: number, props: UpdateFriendDto): Promise<Friend> {
-    // Alterar para `number`
     try {
       const data = Object.entries(props).reduce(
         (acc, [key, value]) => {
