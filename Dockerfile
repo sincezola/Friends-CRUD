@@ -1,35 +1,16 @@
-FROM node:18 AS backend
+FROM nginx:alpine AS frontend
 
-WORKDIR /app/backend
+# Instalar supervisord
+RUN apk add --no-cache supervisor
 
-COPY ./backend/package*.json ./
-
-RUN npm install
-
-COPY ./backend .
-
-RUN npm run build
-
-FROM node:18 AS frontend
-
-WORKDIR /app/frontend
-
-COPY ./frontend/package*.json ./
-
-RUN npm install
-
-COPY ./frontend .
-
-RUN npm run build
-
-FROM nginx:alpine
-
+# Copy da aplicação frontend
 COPY --from=frontend /app/frontend/dist /usr/share/nginx/html
-
 COPY --from=backend /app/backend /app/backend
 
-EXPOSE 80
+# Configuração do supervisord
+COPY ./supervisord.conf /etc/supervisord.conf
 
+EXPOSE 80
 EXPOSE 3000
 
-CMD ["sh", "-c", "node /app/backend/server.js & nginx -g 'daemon off;'"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
