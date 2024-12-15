@@ -1,4 +1,3 @@
-
 FROM node:18 AS backend
 
 WORKDIR /app/backend
@@ -8,8 +7,6 @@ COPY ./backend/package*.json ./
 RUN npm install
 
 COPY ./backend .
-
-COPY ./backend/.env ./
 
 RUN npm run build
 
@@ -30,8 +27,6 @@ FROM nginx:alpine
 COPY --from=frontend /app/frontend/dist /usr/share/nginx/html
 
 COPY --from=backend /app/backend /app/backend
-
-COPY --from=backend /app/backend/.env /app/backend/
 
 EXPOSE 80
 
