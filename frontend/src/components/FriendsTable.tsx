@@ -26,11 +26,11 @@ export function FriendsTable({
   const [selectedFriend, setSelectedFriend] = useState<Friend | null>(null);
 
   const handleOpenEditModal = (friend: Friend) => {
-    setSelectedFriend(friend);
+    setSelectedFriend(friend); // Define o amigo selecionado para editar
   };
 
   const handleCloseEditModal = () => {
-    setSelectedFriend(null);
+    setSelectedFriend(null); // Limpa a seleção do amigo após fechar o modal
   };
 
   return (
@@ -66,13 +66,15 @@ export function FriendsTable({
                     >
                       <Trash className="h-5 w-5" />
                     </button>
-                    <button
-                      onClick={() => handleOpenEditModal(friend)}
-                      className="p-2 bg-yellow-500 text-white rounded-md flex items-center justify-center hover:bg-yellow-600 transition-transform duration-200 hover:scale-110"
-                      aria-label={`Edit friend ${friend.name}`}
-                    >
-                      <Pen className="h-5 w-5" />
-                    </button>
+                    {!selectedFriend && ( // Só mostra o botão "Editar" se o modal não estiver aberto
+                      <button
+                        onClick={() => handleOpenEditModal(friend)} // Aqui
+                        className="p-2 bg-yellow-500 text-white rounded-md flex items-center justify-center hover:bg-yellow-600 transition-transform duration-200 hover:scale-110"
+                        aria-label={`Edit friend ${friend.name}`}
+                      >
+                        <Pen className="h-5 w-5" />
+                      </button>
+                    )}
                   </div>
                 </TableCell>
               </TableRow>
@@ -89,12 +91,12 @@ export function FriendsTable({
 
       {selectedFriend && (
         <UpdateFriendDialog
-          open={!!selectedFriend}
+          open={!!selectedFriend} // Quando selectedFriend não é null, o modal está aberto
           onClose={handleCloseEditModal}
           friend={selectedFriend}
           onSubmit={(updatedData) => {
             onEdit(selectedFriend.id, updatedData);
-            handleCloseEditModal();
+            handleCloseEditModal(); // Fecha o modal após salvar
           }}
         />
       )}

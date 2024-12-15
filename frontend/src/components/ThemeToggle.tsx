@@ -26,9 +26,7 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       className={`fixed bottom-4 right-4 p-3 rounded-full shadow-lg 
         ${
-          theme === "light"
-            ? "bg-blue-800 text-white"
-            : "bg-white text-black"
+          theme === "light" ? "bg-blue-800 text-white" : "bg-white text-black"
         }`}
       aria-label="Toggle theme"
     >

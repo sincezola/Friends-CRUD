@@ -76,10 +76,6 @@ export function UpdateFriendDialog({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogTrigger asChild>
-        <Button>Edit Friend</Button>
-      </DialogTrigger>
-
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Friend: {friend.name}</DialogTitle>
