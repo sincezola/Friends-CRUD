@@ -1,5 +1,10 @@
 # Friends API
 
+<p align="center">
+  <img src="./DarkMode.png" alt="Dark Mode" width="500" style="margin-right: 150px;">
+  <img src="./LightMode.png" alt="Light Mode" width="500">
+</p>
+
 ## 📖 About the API
 The **Friends API** is a service that allows you to manage a list of friends. With it, you can:
 - List all friends.
