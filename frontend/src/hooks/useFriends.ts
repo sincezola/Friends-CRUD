@@ -29,7 +29,7 @@ export default function useFriends() {
       await createFriend(newFriend);
       await fetchFriends();
     } catch (err) {
-      setError("Failed to add friend");
+      setError("Failed to add friend (Conflict)");
     }
   };
 

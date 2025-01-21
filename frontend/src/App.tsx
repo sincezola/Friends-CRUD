@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FriendsTable } from "./components/FriendsTable";
 import useFriends from "./hooks/useFriends";
-import { FriendsDialog } from "./components/CreateFriendDialog";
+import { CreateFriendDialog } from "./components/CreateFriendDialog";
 import { PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "./components/ui/sonner";
@@ -85,7 +85,7 @@ function App() {
       <div className="flex items-center justify-between space-x-4">
         <SearchInput onSearch={handleSearch} />
 
-        <FriendsDialog
+        <CreateFriendDialog
           onSubmit={handleAddFriend}
           dialogTitle="Add New Friend"
           dialogDescription="Fill in the details to add a new friend."

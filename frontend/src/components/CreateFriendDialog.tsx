@@ -25,21 +25,14 @@ interface FriendsDialogProps {
   triggerIcon: JSX.Element;
 }
 
-export function FriendsDialog({
+export function CreateFriendDialog({
   onSubmit,
   dialogTitle,
   dialogDescription,
   triggerText,
   triggerIcon,
 }: FriendsDialogProps) {
-  const [errors, _setErrors] = useState({
-    name: "",
-    friendLevel: "",
-    fatLevel: "",
-  });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -64,6 +57,16 @@ export function FriendsDialog({
     const regex = /^[A-Za-zÀ-ú ]+$/;
     if (!regex.test(name)) {
       toast.error("Friend Name can only contain letters and spaces");
+      return;
+    }
+
+    if (
+      friendLevel < 1 ||
+      friendLevel > 10 ||
+      fatLevel < 1 ||
+      fatLevel > 10
+    ) {
+      toast.error("Friend Level and Fat Level must be between 1 and 10.");
       return;
     }
 
@@ -101,9 +104,6 @@ export function FriendsDialog({
             <Label htmlFor="name">Friend Name</Label>
             <div className="col-span-3">
               <Input id="name" name="name" required autoComplete="off" />
-              {errors.name && (
-                <p className="text-red-500 text-sm">{errors.name}</p>
-              )}
             </div>
           </div>
 
@@ -120,9 +120,6 @@ export function FriendsDialog({
                 required
                 className="border rounded-md p-2 w-full appearance-none -moz-appearance-none -webkit-appearance-none"
               />
-              {errors.friendLevel && (
-                <p className="text-red-500 text-sm">{errors.friendLevel}</p>
-              )}
             </div>
           </div>
 
@@ -139,9 +136,6 @@ export function FriendsDialog({
                 required
                 className="border rounded-md p-2 w-full appearance-none -moz-appearance-none -webkit-appearance-none"
               />
-              {errors.fatLevel && (
-                <p className="text-red-500 text-sm">{errors.fatLevel}</p>
-              )}
             </div>
           </div>
 
