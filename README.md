@@ -3,6 +3,7 @@
 <p align="center">
   <img src="./DarkMode.png" alt="Dark Mode" width="500" style="margin-right: 150px;">
   <img src="./LightMode.png" alt="Light Mode" width="500">
+  <img src="./ModalShowCase.png" alt="Modal Show Case" width="500">
 </p>
 
 ## 📖 About the API
